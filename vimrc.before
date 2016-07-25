@@ -1,0 +1,146 @@
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:airline_theme='solarized'
+let g:airline_solarized_bg = "dark"
+
+let mapleader = ","
+let g:NERDTreeWinSize = 40
+let NERDTreeShowLineNumbers=1
+
+function! StartUp()
+  if 0 == argc()
+    NERDTree
+  end
+endfunction
+autocmd VimEnter * call StartUp()
+
+"" カーソル行の色
+set cursorline
+highlight clear CursorLine
+highlight CursorLine gui=underline ctermbg=0
+
+set autoread
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" Awesome trick for avoiding extra indentation due to auto-tabs while pasting from clipboard into tmux + vim
+" https://coderwall.com/p/if9mda/automatically-set-paste-mode-in-vim-when-pasting-in-insert-mode
+function! WrapForTmux(s)
+  if !exists('$TMUX')
+    return a:s
+  endif
+
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+endfunction
+
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+" Enables integration between Vim and OSX system clipboard!
+set clipboard=unnamed
+
+nnoremap <leader>mh :SidewaysLeft<cr>
+nnoremap <leader>ml :SidewaysRight<cr>
+
+let vim_markdown_preview_github=1
+
+augroup vimrcEx
+  autocmd!
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it for commit messages, when the position is invalid, or when
+  " inside an event handler (happens when dropping a file on gvim).
+  autocmd BufReadPost *
+    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  " Set syntax highlighting for specific file types
+  autocmd BufRead,BufNewFile Appraisals set filetype=ruby
+  autocmd BufRead,BufNewFile *.md set filetype=markdown
+
+  " Enable spellchecking for Markdown
+  autocmd FileType markdown setlocal spell
+
+  " Automatically wrap at 80 characters for Markdown
+  autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+
+  " Automatically wrap at 72 characters and spell check git commit messages
+  autocmd FileType gitcommit setlocal textwidth=72
+  autocmd FileType gitcommit setlocal spell
+
+  " Allow stylesheets to autocomplete hyphenated words
+  autocmd FileType css,scss,sass setlocal iskeyword+=-
+augroup END
+
+" file is large from 10mb
+let g:LargeFile = 1024 * 1024 * 10
+augroup LargeFile
+ autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+augroup END
+
+function LargeFile()
+ " no syntax highlighting etc
+ set eventignore+=FileType
+ " save memory when other file is viewed
+ setlocal bufhidden=unload
+ " is read-only (write with :w new_filename)
+ setlocal buftype=nowrite
+ " no undo possible
+ setlocal undolevels=-1
+ " display message
+ autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
+endfunction
+
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=red ctermbg=0
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
+let g:indent_guides_default_mapping = 0
+
+" Setup for the vim-test plugin
+let test#strategy = 'dispatch'
+
+" Integrate AG (Silver Searcher) with ack.vim
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" bind leader+F to Ack + AG word under cursor
+nnoremap <leader>F :Ack! --word-regexp "<C-R><C-W>"<CR>:cw<CR>
+
+" Disable the ZoomWin plugin, which conflicts with NeoVIM
+call janus#disable_plugin('zoomwin')

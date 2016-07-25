@@ -1,0 +1,15 @@
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[user]
+	name = place_holder
+	email = place_holder
+[core]
+	editor = vim -f
+[push]
+	default = current
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
