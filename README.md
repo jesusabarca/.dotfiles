@@ -19,9 +19,11 @@ brew update
 brew install rbenv
 ```
 ### Install dotfiles.
-`cd ~`
-`git clone https://github.com/jesusabarca/.dotfiles.git`
-`rcup -v`
+```
+cd ~
+git clone https://github.com/jesusabarca/.dotfiles.git
+rcup -v
+```
 
 ### Install reattach-to-user-namespace for integration the system's clipboard to tmux and vim
 `brew install reattach-to-user-namespace`
