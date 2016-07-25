@@ -18,7 +18,9 @@ To use this dotfiles, please install Thoughbot's RCM from https://github.com/tho
 brew update
 brew install rbenv
 ```
-### Install dotfiles. Clone this repo and run:
+### Install dotfiles.
+`cd ~`
+`git clone https://github.com/jesusabarca/.dotfiles.git`
 `rcup -v`
 
 ### Install reattach-to-user-namespace for integration the system's clipboard to tmux and vim
