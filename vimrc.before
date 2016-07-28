@@ -139,6 +139,9 @@ let test#strategy = 'dispatch'
 " Integrate AG (Silver Searcher) with ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
+" Vim rest console configuration
+let b:vrc_allow_get_request_body = 1
+
 " bind leader+F to Ack + AG word under cursor
 nnoremap <leader>F :Ack! --word-regexp "<C-R><C-W>"<CR>:cw<CR>
 
