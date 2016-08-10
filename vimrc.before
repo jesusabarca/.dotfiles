@@ -147,6 +147,3 @@ nnoremap <leader>F :Ack! --word-regexp "<C-R><C-W>"<CR>:cw<CR>
 
 " Disable the ZoomWin plugin, which conflicts with NeoVIM
 call janus#disable_plugin('zoomwin')
-
-" Disable NERDTree auto reload on windows focus
-autocmd! AuNERDTreeCmd FocusGained

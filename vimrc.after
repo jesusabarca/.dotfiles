@@ -1,0 +1,2 @@
+" Disable NERDTree auto reload on windows focus
+autocmd! AuNERDTreeCmd FocusGained
