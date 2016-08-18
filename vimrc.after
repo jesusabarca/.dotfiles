@@ -1,2 +1,5 @@
 " Disable NERDTree auto reload on windows focus
 autocmd! AuNERDTreeCmd FocusGained
+
+" Set relative line numbers
+set relativenumber
