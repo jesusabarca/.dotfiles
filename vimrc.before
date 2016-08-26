@@ -133,9 +133,6 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 let g:indent_guides_default_mapping = 0
 
-" Setup for the vim-test plugin
-let test#strategy = 'dispatch'
-
 " Integrate AG (Silver Searcher) with ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column'
 

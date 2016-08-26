@@ -3,3 +3,10 @@ autocmd! AuNERDTreeCmd FocusGained
 
 " Set relative line numbers
 set relativenumber
+
+" Set mappings for vim-test
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>Ta :TestSuite<CR>
+
+" Setup for the vim-test plugin
+let test#strategy = 'dispatch'
