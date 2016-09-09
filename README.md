@@ -42,6 +42,7 @@ rcup -v
 - https://github.com/janko-m/vim-test
 - https://github.com/slashmili/alchemist.vim (maybe?)
 - https://github.com/troydm/zoomwintab.vim
+- https://github.com/simnalamburt/vim-mundo
 
 ### Fix vim-tmux-navigator for NeoVIM
 ```
@@ -54,3 +55,6 @@ tic $TERM.ti
 
 ### Install the incredibly fast Silver Searcher
 `brew install the_silver_searcher`
+
+### Install neovim package for python2 so vim-mundo can run.
+`sudo pip2 install --upgrade neovim`
