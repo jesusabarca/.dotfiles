@@ -10,3 +10,6 @@ nmap <silent> <leader>Ta :TestSuite<CR>
 
 " Setup for the vim-test plugin
 let test#strategy = 'dispatch'
+
+" Set mapping for vim-mundo
+nnoremap <leader>g :MundoToggle<CR>
