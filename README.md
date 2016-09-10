@@ -58,3 +58,6 @@ tic $TERM.ti
 
 ### Install neovim package for python2 so vim-mundo can run.
 `sudo pip2 install --upgrade neovim`
+
+### Install bash-git-prompt
+`brew install bash-git-prompt`
