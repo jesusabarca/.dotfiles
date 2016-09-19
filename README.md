@@ -4,6 +4,12 @@
 To use this dotfiles, please install Thoughbot's RCM from https://github.com/thoughtbot/rcm
 
 ## How to setup a new OS X for dev
+### Increase speed on keypress
+```
+defaults write -g InitialKeyRepeat -int 10
+defaults write -g KeyRepeat -int 1
+```
+
 ### Install homebrew
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
