@@ -57,8 +57,11 @@ tic $TERM.ti
 ### Install the incredibly fast Silver Searcher
 `brew install the_silver_searcher`
 
-### Install neovim package for python2 so vim-mundo can run.
-`sudo pip2 install --upgrade neovim`
+### Install Python and neovim package for python2 so vim-mundo can run.
+```
+brew install python
+sudo pip2 install --upgrade neovim
+```
 
 ### Install bash-git-prompt
 `brew install bash-git-prompt`
