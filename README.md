@@ -7,6 +7,9 @@ To use this dotfiles, please install Thoughbot's RCM from https://github.com/tho
 ### Install homebrew
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
+### Install Tmux
+`brew install tmux`
+
 ### Install NeoVim
 `brew install neovim/neovim/neovim`
 
