@@ -20,6 +20,14 @@ To use this dotfiles, please install Thoughbot's RCM from https://github.com/tho
 ```
 brew install rbenv
 ```
+
+### Install a default ruby version and install `rubocop`
+```
+rbenv install 2.3.1
+rbenv global 2.3.1
+gem install rubocop
+```
+
 ### Install dotfiles.
 ```
 cd ~
