@@ -24,6 +24,7 @@ brew install rbenv
 ```
 cd ~
 git clone https://github.com/jesusabarca/.dotfiles.git
+cd .dotfiles
 rcup -v
 ```
 
