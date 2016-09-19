@@ -13,10 +13,9 @@ To use this dotfiles, please install Thoughbot's RCM from https://github.com/tho
 ### Install Janus
 `curl -L https://bit.ly/janus-bootstrap | bash`
 
-### Install rbenv
+### Install rbenv and ruby-build
 ```
 brew install rbenv
-brew install ruby-build
 ```
 ### Install dotfiles.
 ```
