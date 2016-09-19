@@ -15,10 +15,8 @@ To use this dotfiles, please install Thoughbot's RCM from https://github.com/tho
 
 ### Install rbenv
 ```
-git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+brew install rbenv
+brew install ruby-build
 ```
 ### Install dotfiles.
 ```
