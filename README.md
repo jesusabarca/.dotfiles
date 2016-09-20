@@ -4,6 +4,8 @@
 To use this dotfiles, please install Thoughbot's RCM from https://github.com/thoughtbot/rcm
 
 ## How to setup a new OS X for dev
+### Update your name and email address on `gitconfig`
+
 ### Increase speed on keypress
 ```
 defaults write -g InitialKeyRepeat -int 10
