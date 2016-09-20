@@ -34,8 +34,8 @@ if [[ ! $TERM =~ screen ]]; then
 fi
 
 # Starts the git prompt automaticly
-if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
-  source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+  source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
 fi
 
 ### Added by the Heroku Toolbelt
