@@ -10,8 +10,6 @@ alias jsc='/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/
 # Your previous /Users/jesus/.bash_profile file was backed up as /Users/jesus/.bash_profile.macports-saved_2015-04-14_at_11:58:44
 ##
 
-export PATH="/opt/nginx/sbin:/opt/passenger/passenger-4.0.59/bin:$PATH"
-
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
