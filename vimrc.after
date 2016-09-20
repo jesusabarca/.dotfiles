@@ -13,3 +13,6 @@ let test#strategy = 'dispatch'
 
 " Set mapping for vim-mundo
 nnoremap <leader>g :MundoToggle<CR>
+
+" Fixes indentation warning about color scheme
+colorscheme default
