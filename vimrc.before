@@ -28,6 +28,7 @@ let g:NERDTreeWinSize = 40
 let NERDTreeShowLineNumbers=1
 
 function! StartUp()
+  IndentGuidesEnable
   if 0 == argc()
     NERDTree
   end
@@ -90,6 +91,7 @@ augroup vimrcEx
 
   " Set syntax highlighting for specific file types
   autocmd BufRead,BufNewFile Appraisals set filetype=ruby
+  autocmd BufRead,BufNewFile *.prawn set filetype=ruby
   autocmd BufRead,BufNewFile *.md set filetype=markdown
 
   " Enable spellchecking for Markdown
