@@ -24,3 +24,6 @@ let g:indent_guides_default_mapping = 0
 
 " Fixes clipboard regression in OS X Sierra
 set clipboard=unnamed
+
+" Disables mouse support.
+set mouse=
