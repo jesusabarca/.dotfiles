@@ -57,7 +57,6 @@ rcup -v
 - https://github.com/ngmy/vim-rubocop
 - https://github.com/christoomey/vim-tmux-navigator
 - https://github.com/janko-m/vim-test
-- https://github.com/slashmili/alchemist.vim (maybe?)
 - https://github.com/troydm/zoomwintab.vim
 - https://github.com/simnalamburt/vim-mundo
 
