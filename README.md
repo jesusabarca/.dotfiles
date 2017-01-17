@@ -78,5 +78,8 @@ brew install python
 sudo pip2 install --upgrade neovim
 ```
 
+### Install diff-so-fancy
+`brew install diff-so-fancy`
+
 ### Install bash-git-prompt
 `brew install bash-git-prompt`
