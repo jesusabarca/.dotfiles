@@ -24,7 +24,7 @@ function up() {
 }
 
 # Stores the bash history from every bash terminal open
-export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+#export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # Starts tmux by default
 if [[ ! $TERM =~ screen ]]; then
