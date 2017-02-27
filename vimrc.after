@@ -14,6 +14,9 @@ let test#strategy = 'dispatch'
 " Set mapping for vim-mundo
 nnoremap <leader>g :MundoToggle<CR>
 
+" Set mapping for Switch
+nnoremap <leader>s :Switch<CR>
+
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=red ctermbg=0
