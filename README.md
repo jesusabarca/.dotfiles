@@ -85,3 +85,6 @@ sudo pip2 install --upgrade neovim
 
 ### Install bash-git-prompt
 `brew install bash-git-prompt`
+
+### Install ack
+`brew install ack`
