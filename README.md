@@ -31,8 +31,8 @@ brew install rbenv
 
 ### Install a default ruby version and install `rubocop`
 ```
-rbenv install 2.3.1
-rbenv global 2.3.1
+rbenv install 2.4.1
+rbenv global 2.4.1
 gem install rubocop
 ```
 
