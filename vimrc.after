@@ -25,6 +25,9 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 let g:indent_guides_default_mapping = 0
 
+" Sets all the .conf files to the right filetype
+autocmd BufRead,BufNewFile *.conf setfiletype conf
+
 " Fixes clipboard regression in OS X Sierra
 set clipboard=unnamed
 
