@@ -61,6 +61,7 @@ rcup -v
 - https://github.com/simnalamburt/vim-mundo
 - https://github.com/kshenoy/vim-signature
 - https://github.com/AndrewRadev/switch.vim
+- https://github.com/AndrewRadev/sideways.vim
 
 ### Fix vim-tmux-navigator for NeoVIM
 ```
