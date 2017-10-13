@@ -19,7 +19,7 @@ defaults write -g KeyRepeat -int 1
 `brew install tmux`
 
 ### Install NeoVim
-`brew install neovim/neovim/neovim`
+`brew install neovim`
 
 ### Install Janus
 `curl -L https://bit.ly/janus-bootstrap | bash`
