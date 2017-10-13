@@ -138,3 +138,4 @@ nnoremap <leader>F :Ack! --word-regexp "<C-R><C-W>"<CR>:cw<CR>
 
 " Disable the ZoomWin plugin, which conflicts with NeoVIM
 call janus#disable_plugin('zoomwin')
+call janus#disable_plugin('vim-gitgutter')
