@@ -15,14 +15,11 @@ defaults write -g KeyRepeat -int 1
 ### Install homebrew
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
-### Install Tmux
-`brew install tmux`
+### Install Coreutils
+`brew install coreutils`
 
 ### Install NeoVim
 `brew install neovim`
-
-### Install Janus
-`curl -L https://bit.ly/janus-bootstrap | bash`
 
 ### Install rbenv and ruby-build
 ```
@@ -44,8 +41,12 @@ cd .dotfiles
 rcup -v
 ```
 
-### Install reattach-to-user-namespace for integration the system's clipboard to tmux and vim
-`brew install reattach-to-user-namespace`
+### To import config, create a `~/.config/nvim/init.vim` file with:
+```
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+source ~/.vimrc
+```
 
 ### Install the following vim plugins in `~/.janus`:
 - https://github.com/jiangmiao/auto-pairs
@@ -58,28 +59,12 @@ rcup -v
 - https://github.com/christoomey/vim-tmux-navigator
 - https://github.com/janko-m/vim-test
 - https://github.com/troydm/zoomwintab.vim
-- https://github.com/simnalamburt/vim-mundo
 - https://github.com/kshenoy/vim-signature
 - https://github.com/AndrewRadev/switch.vim
 - https://github.com/AndrewRadev/sideways.vim
 
-### Fix vim-tmux-navigator for NeoVIM
-```
-mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-ln -s ~/.vim $XDG_CONFIG_HOME/nvim
-ln -s ~/.vimrc $XDG_CONFIG_HOME/nvim/init.vim
-infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
-tic $TERM.ti
-```
-
 ### Install the incredibly fast Silver Searcher
 `brew install the_silver_searcher`
-
-### Install Python and neovim package for python2 so vim-mundo can run.
-```
-brew install python
-sudo pip2 install --upgrade neovim
-```
 
 ### Install diff-so-fancy
 `brew install diff-so-fancy`
