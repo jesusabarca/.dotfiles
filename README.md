@@ -48,21 +48,6 @@ let &packpath = &runtimepath
 source ~/.vimrc
 ```
 
-### Install the following vim plugins in `~/.janus`:
-- https://github.com/jiangmiao/auto-pairs
-- https://github.com/othree/html5.vim
-- https://github.com/vim-airline/vim-airline
-- https://github.com/vim-airline/vim-airline-themes
-- https://github.com/nathanaelkane/vim-indent-guides
-- https://github.com/diepm/vim-rest-console
-- https://github.com/ngmy/vim-rubocop
-- https://github.com/christoomey/vim-tmux-navigator
-- https://github.com/janko-m/vim-test
-- https://github.com/troydm/zoomwintab.vim
-- https://github.com/kshenoy/vim-signature
-- https://github.com/AndrewRadev/switch.vim
-- https://github.com/AndrewRadev/sideways.vim
-
 ### Install the incredibly fast Silver Searcher
 `brew install the_silver_searcher`
 
