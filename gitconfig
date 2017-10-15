@@ -3,8 +3,8 @@
 	smudge = git hawser smudge %f
 	required = true
 [user]
-	name = place_holder
-	email = place_holder
+	name = placeholder
+	email = placeholder
 [core]
 	editor = /usr/local/bin/nvim
 	pager = diff-so-fancy | less --tabs=4 -RFX
@@ -14,5 +14,3 @@
 	clean = git lfs clean %f
 	smudge = git lfs smudge %f
 	required = true
-[commit]
-    gpgsign = true
