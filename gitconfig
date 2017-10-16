@@ -3,8 +3,8 @@
 	smudge = git hawser smudge %f
 	required = true
 [user]
-	name = placeholder
-	email = placeholder
+	name = J Jesús Abarca Vargas
+	email = jesus@abarca.xyz
 [core]
 	editor = /usr/local/bin/nvim
 	pager = diff-so-fancy | less --tabs=4 -RFX
