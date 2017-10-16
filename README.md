@@ -59,3 +59,6 @@ source ~/.vimrc
 
 ### Install ack
 `brew install ack`
+
+### Install powerline fonts and select one in the bash profile config
+https://github.com/powerline/fonts
