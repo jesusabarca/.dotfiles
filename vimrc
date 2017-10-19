@@ -3,8 +3,9 @@ Plug 'ngmy/vim-rubocop'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-dispatch'
-Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-commentary'
+Plug 'airblade/vim-gitgutter'
 Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sheerun/vim-polyglot'
@@ -16,7 +17,16 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neomake/neomake'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 call plug#end()
+
+" Activates indent plugin and filetype detection
+filetype plugin indent on
+
+" Auto-update files
+set autoread
+au CursorHold * checktime
 
 " Sets the term cursor red to be easily distinguished from the editor cursor
 " which is white.
@@ -29,7 +39,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red ctermbg=0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=red ctermbg=0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-let g:indent_guides_exclude_filetypes = ['help']
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
 let g:indent_guides_default_mapping = 0
 
 " Basic setup
@@ -57,9 +67,6 @@ set listchars+=extends:>          " The character to show in the last column whe
 set listchars+=precedes:<         " The character to show in the last column when wrap is
                                   " off and the line continues beyond the left of the screen
 
-" File types
-filetype plugin indent on
-
 " Remember last location in file, but not for commit messages.
 " see :help last-position-jump
 au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
@@ -80,9 +87,6 @@ if has('nvim')
   tnoremap <Esc> <C-\><C-n>
 endif
 
-" Set relative line numbers
-set relativenumber
-
 " Sets all the .conf files to the right filetype
 autocmd BufRead,BufNewFile *.conf setfiletype conf
 
@@ -91,10 +95,13 @@ autocmd BufRead,BufNewFile Appraisals setfiletype ruby
 autocmd BufRead,BufNewFile *.prawn setfiletype ruby
 autocmd BufRead,BufNewFile *.md setfiletype markdown
 
+" Set relative line numbers
+" set relativenumber
+
 " Sets the cursorline
-set cursorline
-highlight clear CursorLine
-highlight CursorLine gui=underline ctermbg=0
+" set cursorline
+" highlight clear CursorLine
+" highlight CursorLine gui=underline ctermbg=0
 
 " Integrate AG (Silver Searcher) with ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -130,3 +137,18 @@ set statusline+=%*
 
 " run NeoMake when writing a buffer.
 call neomake#configure#automake('rw')
+
+" Map ctrl-b + c to open a new tab window
+nnoremap <C-b>c :tabnew<CR>
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <Leader>n :NERDTreeToggle<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeHighlightCursorline=0
+let NERDTreeQuitOnOpen=1
+let NERDTreeAutoDeleteBuffer=1
+
+" This new Sudow command is for writting changes as root
+command Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
