@@ -46,9 +46,10 @@ let g:indent_guides_default_mapping = 0
 if has('vim_starting') && !has('nvim') && &compatible
   set nocompatible               " Be iMproved
 endif
-
 set ruler             " Show line and column number
 syntax enable         " Turn on syntax highlighting allowing local overrides
+set path+=**          " Fuzzy finder
+set wildmenu          " command-line completion
 
 " Whitespace
 set nowrap                        " don't wrap lines
@@ -97,6 +98,7 @@ autocmd BufRead,BufNewFile *.md setfiletype markdown
 
 " Set relative line numbers
 " set relativenumber
+set number
 
 " Sets the cursorline
 " set cursorline
@@ -140,6 +142,12 @@ call neomake#configure#automake('rw')
 
 " Map ctrl-b + c to open a new tab window
 nnoremap <C-b>c :tabnew<CR>
+
+" Map ctrl-b + c to open a new horizontal split with a terminal
+nnoremap <C-b>" :new +terminal<CR>
+
+" Map ctrl-b + c to open a new vertical split with a terminal
+nnoremap <C-b>% :vnew +terminal<CR>
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
