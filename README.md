@@ -60,5 +60,9 @@ source ~/.vimrc
 ### Install ack
 `brew install ack`
 
+### Install vim-plug from https://github.com/junegunn/vim-plug and run inside nvim:
+`:PlugInstall`
+
+
 ### Install powerline fonts and select one in the bash profile config
 https://github.com/powerline/fonts
