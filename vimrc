@@ -46,10 +46,12 @@ let g:indent_guides_default_mapping = 0
 if has('vim_starting') && !has('nvim') && &compatible
   set nocompatible               " Be iMproved
 endif
-set ruler             " Show line and column number
-syntax enable         " Turn on syntax highlighting allowing local overrides
-set path+=**          " Fuzzy finder
-set wildmenu          " command-line completion
+set ruler                          " Show line and column number
+syntax enable                      " Turn on syntax highlighting allowing local overrides
+let g:polyglot_disabled = ['ruby'] " Disables Ruby highlighting from Polyglot
+set path+=**                       " Fuzzy finder
+set wildmenu                       " command-line completion
+set ttyfast                        " Speeds things up a little bit
 
 " Whitespace
 set nowrap                        " don't wrap lines
@@ -96,14 +98,16 @@ autocmd BufRead,BufNewFile Appraisals setfiletype ruby
 autocmd BufRead,BufNewFile *.prawn setfiletype ruby
 autocmd BufRead,BufNewFile *.md setfiletype markdown
 
-" Set relative line numbers
-" set relativenumber
-set number
+" Set hybrid relative line numbers
+set number relativenumber
+
+" Uses new Regex engine for faster syntax highlighting
+set re=1
 
 " Sets the cursorline
-" set cursorline
-" highlight clear CursorLine
-" highlight CursorLine gui=underline ctermbg=0
+set cursorline
+highlight clear CursorLine
+highlight CursorLine gui=underline ctermbg=0
 
 " Integrate AG (Silver Searcher) with ack.vim
 let g:ackprg = 'ag --nogroup --nocolor --column'
