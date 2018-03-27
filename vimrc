@@ -136,6 +136,19 @@ tnoremap <C-j> <c-\><c-n><c-w>j
 tnoremap <C-k> <c-\><c-n><c-w>k
 tnoremap <C-l> <c-\><c-n><c-w>l
 
+" Sets mappings for moving between tabs
+nnoremap <C-b>h :tabp<CR>
+nnoremap <C-b>l :tabn<CR>
+
+inoremap <C-b>h <Esc>:tabp<CR>
+inoremap <C-b>l <Esc>:tabn<CR>
+
+vnoremap <C-b>h <Esc>:tabp<CR>
+vnoremap <C-b>l <Esc>:tabn<CR>
+
+tnoremap <C-b>h <c-\><c-n>:tabp<CR>
+tnoremap <C-b>l <c-\><c-n>:tabn<CR>
+
 " Set mappings for vim-test
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
