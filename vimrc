@@ -116,13 +116,25 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>F :Ack! --word-regexp "<C-R><C-W>"<CR>:cw<CR>
 
 " Sets mappings for moving between splits
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <C-h> <c-w>h
+nnoremap <C-j> <c-w>j
+nnoremap <C-k> <c-w>k
+nnoremap <C-l> <c-w>l
 
-nnoremap <C-b>h :tabp<CR>
-nnoremap <C-b>l :tabn<CR>
+inoremap <C-h> <Esc><c-w>h
+inoremap <C-j> <Esc><c-w>j
+inoremap <C-k> <Esc><c-w>k
+inoremap <C-l> <Esc><c-w>l
+
+vnoremap <C-h> <Esc><c-w>h
+vnoremap <C-j> <Esc><c-w>j
+vnoremap <C-k> <Esc><c-w>k
+vnoremap <C-l> <Esc><c-w>l
+
+tnoremap <C-h> <c-\><c-n><c-w>h
+tnoremap <C-j> <c-\><c-n><c-w>j
+tnoremap <C-k> <c-\><c-n><c-w>k
+tnoremap <C-l> <c-\><c-n><c-w>l
 
 " Set mappings for vim-test
 nmap <silent> <leader>t :TestNearest<CR>
@@ -145,13 +157,19 @@ set statusline+=%*
 call neomake#configure#automake('rw')
 
 " Map ctrl-b + c to open a new tab window
-nnoremap <C-b>c :tabnew<CR>
+nnoremap <C-b>c :tabnew +terminal<CR>
 
 " Map ctrl-b + c to open a new horizontal split with a terminal
 nnoremap <C-b>" :new +terminal<CR>
 
 " Map ctrl-b + c to open a new vertical split with a terminal
 nnoremap <C-b>% :vnew +terminal<CR>
+
+" Enter Terminal-mode (insert) automatically
+autocmd TermOpen * startinsert
+
+" Disables number lines on terminal buffers
+autocmd TermOpen * :set nonumber norelativenumber
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
