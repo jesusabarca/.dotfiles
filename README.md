@@ -66,3 +66,9 @@ source ~/.vimrc
 
 ### Install powerline fonts and select one in the bash profile config
 https://github.com/powerline/fonts
+
+### Install Virtualbox (needed for AO)
+`brew cask install virtualbox`
+
+### Install vagrant (needed for AO)
+`brew cask install vagrant`
