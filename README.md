@@ -1,10 +1,7 @@
 # .dotfiles
 #### Personal dotfiles for various apps
 
-To use this dotfiles, please install Thoughbot's RCM from https://github.com/thoughtbot/rcm
-
 ## How to setup a new OS X for dev
-### Update your name and email address on `gitconfig`
 
 ### Increase speed on keypress
 ```
@@ -15,8 +12,28 @@ defaults write -g KeyRepeat -int 1
 ### Install homebrew
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
-### Install Coreutils
-`brew install coreutils`
+### Install iterm2
+`brew cask install iterm2`
+
+### Install Git
+`brew install git`
+
+### Install Thoughbot's RCM from https://github.com/thoughtbot/rcm
+```
+brew tap thoughtbot/formulae
+brew install rcm
+```
+
+### Clone this repo and run Rcup to install these dotfiles
+```
+cd ~
+git clone https://github.com/jesusabarca/.dotfiles.git
+cd .dotfiles
+rcup -v
+```
+
+### Update your name and email address on:
+`gitconfig`
 
 ### Install NeoVim
 `brew install neovim`
@@ -28,17 +45,9 @@ brew install rbenv
 
 ### Install a default ruby version and install `rubocop`
 ```
-rbenv install 2.4.1
-rbenv global 2.4.1
+rbenv install 2.5.1
+rbenv global 2.5.1
 gem install rubocop
-```
-
-### Install dotfiles.
-```
-cd ~
-git clone https://github.com/jesusabarca/.dotfiles.git
-cd .dotfiles
-rcup -v
 ```
 
 ### To import config, create a `~/.config/nvim/init.vim` file with:
@@ -57,15 +66,18 @@ source ~/.vimrc
 ### Install bash-git-prompt
 `brew install bash-git-prompt`
 
-### Install ack
-`brew install ack`
-
 ### Install vim-plug from https://github.com/junegunn/vim-plug and run inside nvim:
-`:PlugInstall`
+```
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+:PlugInstall
+```
 
-
-### Install powerline fonts and select one in the bash profile config
-https://github.com/powerline/fonts
+### Install the Meslo powerline fonts and select it in the iterm2 profile config
+```
+brew tap homebrew/cask-fonts
+brew cask install font-meslo-for-powerline
+```
 
 ### Install Virtualbox (needed for AO)
 `brew cask install virtualbox`
