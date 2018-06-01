@@ -150,7 +150,6 @@ tnoremap <C-b>h <c-\><c-n>:tabp<CR>
 tnoremap <C-b>l <c-\><c-n>:tabn<CR>
 
 " Set mappings for vim-test
-nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
 
@@ -195,3 +194,31 @@ let NERDTreeAutoDeleteBuffer=1
 
 " This new Sudow command is for writting changes as root
 command Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
+
+" Toggle terminal split
+let g:term_buf = 0
+let g:term_win = 0
+
+function! Term_toggle(width)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        botright vnew
+        exec "vertical resize " . a:width
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+
+
+nnoremap <leader>t :call Term_toggle(50)<cr>
+tnoremap <leader>t <C-\><C-n>:call Term_toggle(50)<cr>
+
+" Set update time for GitGutter to 100 ms
+set updatetime=100
