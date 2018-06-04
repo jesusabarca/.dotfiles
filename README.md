@@ -84,3 +84,9 @@ brew cask install font-meslo-for-powerline
 
 ### Install vagrant (needed for AO)
 `brew cask install vagrant`
+
+### Install GPG for creating a Key to upload in Github
+`brew install gpg`
+
+### Setup GPG keys for signing commits
+https://help.github.com/articles/signing-commits-with-gpg/
