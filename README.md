@@ -4,28 +4,34 @@
 ## How to setup a new OS X for dev
 
 ### Increase speed on keypress
-```
+```bash
 defaults write -g InitialKeyRepeat -int 10
 defaults write -g KeyRepeat -int 1
 ```
 
 ### Install homebrew
-`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+```bash
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 
 ### Install iterm2
-`brew cask install iterm2`
+```bash
+brew cask install iterm2
+```
 
 ### Install Git
-`brew install git`
+```bash
+brew install git
+```
 
 ### Install Thoughbot's RCM from https://github.com/thoughtbot/rcm
-```
+```bash
 brew tap thoughtbot/formulae
 brew install rcm
 ```
 
 ### Clone this repo and run Rcup to install these dotfiles
-```
+```bash
 cd ~
 git clone https://github.com/jesusabarca/.dotfiles.git
 cd .dotfiles
@@ -36,15 +42,17 @@ rcup -v
 `gitconfig`
 
 ### Install NeoVim
-`brew install neovim`
+```bash
+brew install neovim
+````
 
 ### Install rbenv and ruby-build
-```
+```bash
 brew install rbenv
 ```
 
 ### Install a default ruby version and install `rubocop`
-```
+```bash
 rbenv install 2.5.1
 rbenv global 2.5.1
 gem install rubocop
@@ -54,6 +62,9 @@ gem install rubocop
 ```
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
+```
+
+```bash
 source ~/.vimrc
 ```
 
@@ -67,14 +78,14 @@ source ~/.vimrc
 `brew install bash-git-prompt`
 
 ### Install vim-plug from https://github.com/junegunn/vim-plug and run inside nvim:
-```
+```bash
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 :PlugInstall
 ```
 
 ### Install the Meslo powerline fonts and select it in the iterm2 profile config
-```
+```bash
 brew tap homebrew/cask-fonts
 brew cask install font-meslo-for-powerline
 ```
@@ -90,3 +101,12 @@ brew cask install font-meslo-for-powerline
 
 ### Setup GPG keys for signing commits
 https://help.github.com/articles/signing-commits-with-gpg/
+
+### Install python2 and python3 support for vim
+```bash
+brew install python2
+pip2 install virtualenv
+
+brew install python3
+pip3 install virtualenv
+```
