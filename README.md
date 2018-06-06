@@ -110,3 +110,7 @@ pip2 install virtualenv
 brew install python3
 pip3 install virtualenv
 ```
+```vim
+:PythonSupportInitPython2
+:PythonSupportInitPython3
+```
