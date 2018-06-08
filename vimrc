@@ -1,56 +1,49 @@
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'ngmy/vim-rubocop'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-gitgutter'
-Plug 'mileszs/ack.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'sheerun/vim-polyglot'
-Plug 'janko-m/vim-test'
-Plug 'ervandew/supertab'
-Plug 'troydm/zoomwintab.vim'
-Plug 'kshenoy/vim-signature'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'neomake/neomake'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+  " Plug 'ngmy/vim-rubocop'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-dispatch'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'mileszs/ack.vim'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'ajh17/vimcompletesme'
+  Plug 'kshenoy/vim-signature'
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'janko-m/vim-test'
+  Plug 'arcticicestudio/nord-vim'
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'itchyny/lightline.vim'
+  Plug 'roxma/python-support.nvim'
 call plug#end()
-
-" Activates indent plugin and filetype detection
-filetype plugin indent on
 
 " Auto-update files
 set autoread
 au CursorHold * checktime
 
-" Sets the term cursor red to be easily distinguished from the editor cursor
-" which is white.
-highlight TermCursor ctermfg=red guifg=red
+" Solarized colorscheme config
+set background=dark
+colorscheme solarized
 
 " Indentguides config
-colorscheme default
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red ctermbg=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=red ctermbg=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-let g:indent_guides_exclude_filetypes = ['help', 'nerdtree']
-let g:indent_guides_default_mapping = 0
+let g:indent_guides_exclude_filetypes = ['help']
+let g:indent_guides_start_level = 2
 
 " Basic setup
 if has('vim_starting') && !has('nvim') && &compatible
-  set nocompatible               " Be iMproved
+  set nocompatible                 " Be iMproved
 endif
+filetype plugin indent on          " Activates indent plugin and filetype detection
 set ruler                          " Show line and column number
 syntax enable                      " Turn on syntax highlighting allowing local overrides
-let g:polyglot_disabled = ['ruby'] " Disables Ruby highlighting from Polyglot
 set path+=**                       " Fuzzy finder
-set wildmenu                       " command-line completion
+set wildmenu                       " Command-line completion
 set ttyfast                        " Speeds things up a little bit
 
 " Whitespace
@@ -104,6 +97,9 @@ set number relativenumber
 " Uses new Regex engine for faster syntax highlighting
 set re=1
 
+" Faster scrolling
+set lazyredraw
+
 " Sets the cursorline
 set cursorline
 highlight clear CursorLine
@@ -149,24 +145,20 @@ vnoremap <C-b>l <Esc>:tabn<CR>
 tnoremap <C-b>h <c-\><c-n>:tabp<CR>
 tnoremap <C-b>l <c-\><c-n>:tabn<CR>
 
-" Set mappings for vim-test
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-
-" Setup for the vim-test plugin
-let test#strategy = 'dispatch'
-
-" Airline!
-let g:airline_powerline_fonts = 1
-let g:airline_theme='solarized'
-let g:airline_solarized_bg = "dark"
-let g:airline#extensions#tabline#enabled = 1
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Lightline config
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ }
 
 " run NeoMake when writing a buffer.
-call neomake#configure#automake('rw')
+" call neomake#configure#automake('rw')
 
 " Map ctrl-b + c to open a new tab window
 nnoremap <C-b>c :tabnew +terminal<CR>
@@ -182,15 +174,6 @@ autocmd TermOpen * startinsert
 
 " Disables number lines on terminal buffers
 autocmd TermOpen * :set nonumber norelativenumber
-
-" NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <Leader>n :NERDTreeToggle<CR>
-let NERDTreeMinimalUI=1
-let NERDTreeHighlightCursorline=0
-let NERDTreeQuitOnOpen=1
-let NERDTreeAutoDeleteBuffer=1
 
 " This new Sudow command is for writting changes as root
 command Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
@@ -222,3 +205,16 @@ tnoremap <leader>t <C-\><C-n>:call Term_toggle(50)<cr>
 
 " Set update time for GitGutter to 100 ms
 set updatetime=100
+
+" Setup for the vim-test plugin
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+let test#strategy = 'neovim'
+
+function! VagrantTransform(cmd) abort
+  let vagrant_project = get(matchlist(s:cat('Vagrantfile'), '\vconfig\.vm.synced_folder ["''].+[''"], ["''](.+)[''"]'), 1)
+  return 'vagrant ssh --command '.shellescape('cd '.vagrant_project.'; '.a:cmd)
+endfunction
+
+let g:test#custom_transformations = {'vagrant': function('VagrantTransform')}
+let g:test#transformation = 'vagrant'
