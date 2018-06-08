@@ -114,3 +114,6 @@ pip3 install virtualenv
 :PythonSupportInitPython2
 :PythonSupportInitPython3
 ```
+
+### Install GPG tools to store the key frase for signing commits in macOS's keychain
+https://gpgtools.org
