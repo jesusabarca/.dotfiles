@@ -79,11 +79,11 @@ set splitright
 " Maps leader to ,
 let mapleader = ","
 
-" Maps key - to move the current line down
-map - ddp
+" Maps keys <ctrl>u to make the current word upercase while in insert mode
+inoremap <c-u> <esc>viwUea
 
-" Maps key _ to move the current line up
-map _ ddkP
+" Maps keys <ctrl>u to make the current word upercase while in insert mode
+nnoremap <c-u> viwUe
 
 " Fixes the copy to system's clipboard
 set clipboard+=unnamedplus
@@ -217,8 +217,8 @@ tnoremap <leader>t <C-\><C-n>:call Term_toggle(50)<cr>
 set updatetime=100
 
 " Setup for the vim-test plugin
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
+nnoremap <silent> <leader>T :TestFile<CR>
+nnoremap <silent> <leader>a :TestSuite<CR>
 let test#strategy = 'neovim'
 
 function! VagrantTransform(cmd) abort
@@ -230,7 +230,7 @@ let g:test#custom_transformations = {'vagrant': function('VagrantTransform')}
 let g:test#transformation = 'vagrant'
 
 " NERDTree config
-map <leader>n :NERDTreeToggle<CR>
+noremap <leader>n :NERDTreeToggle<CR>
 let NERDTreeMinimalUI=1
 let NERDTreeAutoDeleteBuffer=1
 let NERDTreeQuitOnOpen=1
