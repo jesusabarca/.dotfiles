@@ -1,5 +1,4 @@
 call plug#begin('~/.local/share/nvim/plugged')
-  " Plug 'ngmy/vim-rubocop'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-endwise'
@@ -12,10 +11,12 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'kshenoy/vim-signature'
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'janko-m/vim-test'
-  Plug 'arcticicestudio/nord-vim'
   Plug 'altercation/vim-colors-solarized'
   Plug 'itchyny/lightline.vim'
   Plug 'roxma/python-support.nvim'
+  Plug 'scrooloose/nerdtree'
+  Plug 'neomake/neomake'
+  Plug 'vim-ruby/vim-ruby'
 call plug#end()
 
 " Auto-update files
@@ -39,12 +40,15 @@ let g:indent_guides_start_level = 2
 if has('vim_starting') && !has('nvim') && &compatible
   set nocompatible                 " Be iMproved
 endif
-filetype plugin indent on          " Activates indent plugin and filetype detection
+filetype on                        " Enable filetype detection
+filetype plugin on                 " Enable filetype-specific plugins
+filetype indent on                 " Enable filetype-specific indenting
 set ruler                          " Show line and column number
 syntax enable                      " Turn on syntax highlighting allowing local overrides
 set path+=**                       " Fuzzy finder
 set wildmenu                       " Command-line completion
 set ttyfast                        " Speeds things up a little bit
+compiler ruby                      " Enable compiler support for ruby
 
 " Whitespace
 set nowrap                        " don't wrap lines
@@ -74,6 +78,12 @@ set splitright
 
 " Maps leader to ,
 let mapleader = ","
+
+" Maps key - to move the current line down
+map - ddp
+
+" Maps key _ to move the current line up
+map _ ddkP
 
 " Fixes the copy to system's clipboard
 set clipboard+=unnamedplus
@@ -218,3 +228,22 @@ endfunction
 
 let g:test#custom_transformations = {'vagrant': function('VagrantTransform')}
 let g:test#transformation = 'vagrant'
+
+" NERDTree config
+map <leader>n :NERDTreeToggle<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeAutoDeleteBuffer=1
+let NERDTreeQuitOnOpen=1
+let NERDTreeAutoCenter=0
+
+" Open NERDTree if no file was specified or if open over a directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+" Closes NERDTree if it's the only window left
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Full config: when writing or reading a buffer, and on changes in insert and
+" normal mode (after 1s; no delay when writing).
+call neomake#configure#automake('nrwi', 500)
