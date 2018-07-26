@@ -15,8 +15,10 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'roxma/python-support.nvim'
   Plug 'scrooloose/nerdtree'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'neomake/neomake'
   Plug 'vim-ruby/vim-ruby'
+  Plug 'ngmy/vim-rubocop'
 call plug#end()
 
 " Auto-update files
@@ -29,12 +31,17 @@ colorscheme solarized
 
 " Indentguides config
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_exclude_filetypes = ['help']
 let g:indent_guides_start_level = 2
+
+augroup indentation_config
+  autocmd!
+
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=0
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0
+augroup END
 
 " Basic setup
 if has('vim_starting') && !has('nvim') && &compatible
@@ -79,11 +86,28 @@ set splitright
 " Maps leader to ,
 let mapleader = ","
 
-" Maps keys <ctrl>u to make the current word upercase while in insert mode
-inoremap <c-u> <esc>viwUea
+" Maps keys <ctrl>u to toggle the current word's case while in normal mode
+nnoremap <leader>u viw~e
 
-" Maps keys <ctrl>u to make the current word upercase while in insert mode
-nnoremap <c-u> viwUe
+" Opens a vertical split with the vim rc file
+nnoremap <leader>ev :vsplit ~/.vimrc<cr>
+
+" Re-sources the vim rc file
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Encloses the current word in double quotes
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+
+" Encloses the current word in single quotes
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+
+" Operator-pending mapping that will act over the insides of the next parentesis
+" e.g. c+p will change the insides of the parenthesis
+onoremap p :<c-u>normal! f(vi(<cr>
+
+" Operator-pending mapping that will act over the insides of the previous parentesis
+" e.g. c+P will change the insides of the previous parenthesis
+onoremap P :<c-u>normal! F)vi(<cr>
 
 " Fixes the copy to system's clipboard
 set clipboard+=unnamedplus
@@ -93,13 +117,15 @@ if has('nvim')
   tnoremap <Esc> <C-\><C-n>
 endif
 
-" Sets all the .conf files to the right filetype
-autocmd BufRead,BufNewFile *.conf setfiletype conf
-
 " Set syntax highlighting for specific file types
-autocmd BufRead,BufNewFile Appraisals setfiletype ruby
-autocmd BufRead,BufNewFile *.prawn setfiletype ruby
-autocmd BufRead,BufNewFile *.md setfiletype markdown
+augroup filetypes
+  autocmd!
+
+  autocmd BufRead,BufNewFile *.conf setfiletype conf
+  autocmd BufRead,BufNewFile Appraisals setfiletype ruby
+  autocmd BufRead,BufNewFile *.prawn setfiletype ruby
+  autocmd BufRead,BufNewFile *.md setfiletype markdown
+augroup END
 
 " Set hybrid relative line numbers
 set number relativenumber
@@ -179,14 +205,18 @@ nnoremap <C-b>" :new +terminal<CR>
 " Map ctrl-b + c to open a new vertical split with a terminal
 nnoremap <C-b>% :vnew +terminal<CR>
 
-" Enter Terminal-mode (insert) automatically
-autocmd TermOpen * startinsert
+augroup neovim_terminal
+  autocmd!
 
-" Disables number lines on terminal buffers
-autocmd TermOpen * :set nonumber norelativenumber
+  " Enter Terminal-mode (insert) automatically
+  autocmd TermOpen * startinsert
+
+  " Disables number lines on terminal buffers
+  autocmd TermOpen * :set nonumber norelativenumber
+augroup END
 
 " This new Sudow command is for writting changes as root
-command Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
+command! Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " Toggle terminal split
 let g:term_buf = 0
@@ -226,8 +256,8 @@ function! VagrantTransform(cmd) abort
   return 'vagrant ssh --command '.shellescape('cd '.vagrant_project.'; '.a:cmd)
 endfunction
 
-let g:test#custom_transformations = {'vagrant': function('VagrantTransform')}
-let g:test#transformation = 'vagrant'
+" let g:test#custom_transformations = {'vagrant': function('VagrantTransform')}
+" let g:test#transformation = 'vagrant'
 
 " NERDTree config
 noremap <leader>n :NERDTreeToggle<CR>
@@ -236,13 +266,17 @@ let NERDTreeAutoDeleteBuffer=1
 let NERDTreeQuitOnOpen=1
 let NERDTreeAutoCenter=0
 
-" Open NERDTree if no file was specified or if open over a directory
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+augroup nerdtree
+  autocmd!
 
-" Closes NERDTree if it's the only window left
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  " Open NERDTree if no file was specified or if open over a directory
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+  " Closes NERDTree if it's the only window left
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
 
 " Full config: when writing or reading a buffer, and on changes in insert and
 " normal mode (after 1s; no delay when writing).
