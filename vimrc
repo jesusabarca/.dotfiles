@@ -29,7 +29,7 @@
   au CursorHold * checktime
 
   " Solarized colorscheme config
-  set background=dark
+  let &background = "dark"
   colorscheme solarized
 
   " Indentguides config
@@ -60,8 +60,8 @@
 
   " Whitespace
   set nowrap                        " don't wrap lines
-  set tabstop=2                     " a tab is two spaces
-  set shiftwidth=2                  " an autoindent (with <<) is two spaces
+  let &tabstop = 2                  " a tab is two spaces
+  let &shiftwidth = 2               " an autoindent (with <<) is two spaces
   set expandtab                     " use spaces, not tabs
   set list                          " Show invisible characters
   set backspace=indent,eol,start    " backspace through everything in insert mode
@@ -88,7 +88,7 @@
   set number relativenumber
 
   " Uses new Regex engine for faster syntax highlighting
-  set re=1
+  let &re = 1
 
   " Faster scrolling
   set lazyredraw
@@ -139,7 +139,7 @@
   endfunction
 
   " Set update time for GitGutter to 100 ms
-  set updatetime=100
+  let &updatetime = 100
 
   let test#strategy = 'neovim'
 
@@ -245,12 +245,15 @@
 
   " Map ctrl-b + c to open a new tab window
   nnoremap <C-b>c :tabnew +terminal<CR>
+  tnoremap <C-b>c <C-\><C-n>:tabnew +terminal<CR>
 
   " Map ctrl-b + c to open a new horizontal split with a terminal
   nnoremap <C-b>" :new +terminal<CR>
+  tnoremap <C-b>" <C-\><C-n>:new +terminal<CR>
 
   " Map ctrl-b + c to open a new vertical split with a terminal
   nnoremap <C-b>% :vnew +terminal<CR>
+  tnoremap <C-b>% <C-\><C-n>:vnew +terminal<cr>
 
   nnoremap <leader>t :call Term_toggle(50)<cr>
   tnoremap <leader>t <C-\><C-n>:call Term_toggle(50)<cr>
@@ -261,6 +264,7 @@
 
   " NERDTreeToggle mapping
   noremap <leader>n :NERDTreeToggle<CR>
+  tnoremap <leader>n <C-\><C-n>:NERDTreeToggle<CR>
 " }}}
 
 " FileType settings ---------------------- {{{
