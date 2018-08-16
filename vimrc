@@ -1,5 +1,6 @@
 " Plugins ---------------------- {{{
   call plug#begin('~/.local/share/nvim/plugged')
+    Plug 'mhinz/vim-startify'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-rails'
     Plug 'tpope/vim-endwise'
@@ -161,9 +162,9 @@
     autocmd!
 
     " Open NERDTree if no file was specified or if open over a directory
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+    " autocmd StdinReadPre * let s:std_in=1
+    " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+    " autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
     " Closes NERDTree if it's the only window left
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -172,6 +173,31 @@
   " Neomake config: when writing or reading a buffer, and on changes in insert and
   " normal mode (after 1s; no delay when writing).
   call neomake#configure#automake('nrwi', 500)
+
+  " Startify config
+  let g:startify_change_to_dir = 0
+
+  function! s:List_commits()
+    let git = 'git -C ./'
+    let commits = systemlist(git .' log --oneline | head -n10')
+    let git = 'G'. git[1:]
+    return map(commits, '{"line": matchstr(v:val, "\\s\\zs.*"), "cmd": "'. git .' show ". matchstr(v:val, "^\\x\\+") }')
+  endfunction
+
+  let g:startify_lists = [
+    \ { 'header': ['   Current directory: '. getcwd()], 'type': 'dir' },
+    \ { 'header': ['   Sessions'],       'type': 'sessions' },
+    \ ]
+
+    " let current_branch = FugitiveHead()
+    " \ { 'header': ['   Commits in current branch '. current_branch],        'type': function('s:List_commits') },
+
+  let g:startify_skiplist = [
+    \ '.git/*',
+    \ 'COMMIT_EDITMSG',
+    \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
+    \ 'bundle/.*/doc',
+    \ ]
 " }}}
 
 " Mappings ---------------------- {{{
