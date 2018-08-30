@@ -84,11 +84,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 :PlugInstall
 ```
 
-### Install the Meslo powerline fonts and select it in the iterm2 profile config
-```bash
-brew tap homebrew/cask-fonts
-brew cask install font-meslo-for-powerline
-```
+### Install the ligaturized version of Meslo LGMDZ https://github.com/ToxicFrog/Ligaturizer
 
 ### Install Virtualbox (needed for AO)
 `brew cask install virtualbox`
