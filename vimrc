@@ -6,21 +6,22 @@
     Plug 'tpope/vim-endwise'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-dispatch'
+    Plug 'tpope/vim-bundler'
     Plug 'airblade/vim-gitgutter'
     Plug 'mileszs/ack.vim'
     Plug 'jiangmiao/auto-pairs'
-    Plug 'ajh17/vimcompletesme'
-    Plug 'kshenoy/vim-signature'
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'janko-m/vim-test'
-    Plug 'altercation/vim-colors-solarized'
+    Plug 'iCyMind/NeoSolarized'
+    Plug 'ajh17/vimcompletesme'
     Plug 'itchyny/lightline.vim'
     Plug 'roxma/python-support.nvim'
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'neomake/neomake'
     Plug 'vim-ruby/vim-ruby'
     Plug 'ngmy/vim-rubocop'
+    Plug 'Vigemus/nvimux'
+    Plug 'w0rp/ale'
   call plug#end()
 " }}}
 
@@ -30,15 +31,17 @@
   au CursorHold * checktime
 
   " Solarized colorscheme config
-  let &background = "dark"
-  colorscheme solarized
+  set termguicolors
+  set background=dark
+  colorscheme NeoSolarized
+  let g:gitgutter_override_sign_column_highlight = 0
 
   " Indentguides config
   augroup indentation_config
-    let g:indent_guides_auto_colors = 0
+    let g:indent_guides_auto_colors = 1
     let g:indent_guides_enable_on_vim_startup = 1
     let g:indent_guides_guide_size = 1
-    let g:indent_guides_exclude_filetypes = ['help']
+    let g:indent_guides_exclude_filetypes = ['help', 'startify', 'terminal']
     let g:indent_guides_start_level = 2
 
     autocmd!
@@ -118,31 +121,37 @@
   " This new Sudow command is for writting changes as root
   command! Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
-  " Toggle terminal split
-  let g:term_buf = 0
-  let g:term_win = 0
+  " NVIMUX's configuration
+lua << EOF
+local nvimux = require('nvimux')
 
-  function! Term_toggle(width)
-      if win_gotoid(g:term_win)
-          hide
-      else
-          botright vnew
-          exec "vertical resize " . a:width
-          try
-              exec "buffer " . g:term_buf
-          catch
-              call termopen($SHELL, {"detach": 0})
-              let g:term_buf = bufnr("")
-          endtry
-          startinsert!
-          let g:term_win = win_getid()
-      endif
-  endfunction
+-- Nvimux configuration
+nvimux.config.set_all{
+  new_window = 'term', -- Use 'term' if you want to open a new term for every new window
+  new_tab = term, -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
+  quickterm_scope = 'g', -- Use 'g' for global quickterm
+  quickterm_size = '50',
+}
+
+-- Nvimux custom bindings
+nvimux.bindings.bind_all{
+  {'t', ':NvimuxToggleTerm', {'n', 'v', 'i', 't'}},
+}
+
+-- Required so nvimux sets the mappings correctly
+nvimux.bootstrap()
+EOF
 
   " Set update time for GitGutter to 100 ms
   let &updatetime = 100
 
-  let test#strategy = 'neovim'
+  let test#strategy = 'dispatch'
+
+  let test#ruby#rspec#options = {
+  \ 'nearest': '--backtrace',
+  \ 'file':    '--format documentation',
+  \ 'suite':   '--tag ~slow',
+  \}
 
   function! VagrantTransform(cmd) abort
     let vagrant_project = get(matchlist(s:cat('Vagrantfile'), '\vconfig\.vm.synced_folder ["''].+[''"], ["''](.+)[''"]'), 1)
@@ -158,21 +167,10 @@
     let NERDTreeAutoDeleteBuffer=1
     let NERDTreeQuitOnOpen=1
     let NERDTreeAutoCenter=0
+    let NERDTreeShowLineNumbers=1
 
     autocmd!
-
-    " Open NERDTree if no file was specified or if open over a directory
-    " autocmd StdinReadPre * let s:std_in=1
-    " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-    " autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-
-    " Closes NERDTree if it's the only window left
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   augroup END
-
-  " Neomake config: when writing or reading a buffer, and on changes in insert and
-  " normal mode (after 1s; no delay when writing).
-  call neomake#configure#automake('nrwi', 500)
 
   " Startify config
   let g:startify_change_to_dir = 0
@@ -218,6 +216,15 @@
 
   " Encloses the current word in single quotes
   nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+
+  " Encloses the current word in parenthesis
+  nnoremap <leader>( viw<esc>a)<esc>hbi(<esc>lel
+
+  " Encloses the current word in curly brackets
+  nnoremap <leader>{ viw<esc>a}<esc>hbi{<esc>lel
+
+  " Encloses the current word in square brackets
+  nnoremap <leader>[ viw<esc>a]<esc>hbi[<esc>lel
 
   " Operator-pending mapping that will act over the insides of the next parentesis
   " e.g. c+p will change the insides of the parenthesis
@@ -268,21 +275,6 @@
 
   tnoremap <C-b>h <c-\><c-n>:tabp<CR>
   tnoremap <C-b>l <c-\><c-n>:tabn<CR>
-
-  " Map ctrl-b + c to open a new tab window
-  nnoremap <C-b>c :tabnew +terminal<CR>
-  tnoremap <C-b>c <C-\><C-n>:tabnew +terminal<CR>
-
-  " Map ctrl-b + c to open a new horizontal split with a terminal
-  nnoremap <C-b>" :new +terminal<CR>
-  tnoremap <C-b>" <C-\><C-n>:new +terminal<CR>
-
-  " Map ctrl-b + c to open a new vertical split with a terminal
-  nnoremap <C-b>% :vnew +terminal<CR>
-  tnoremap <C-b>% <C-\><C-n>:vnew +terminal<cr>
-
-  nnoremap <leader>t :call Term_toggle(50)<cr>
-  tnoremap <leader>t <C-\><C-n>:call Term_toggle(50)<cr>
 
   " Setup for the vim-test plugin
   nnoremap <silent> <leader>T :TestFile<CR>
