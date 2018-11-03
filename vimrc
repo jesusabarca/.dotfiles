@@ -19,7 +19,6 @@
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'vim-ruby/vim-ruby'
-    Plug 'ngmy/vim-rubocop'
     Plug 'Vigemus/nvimux'
     Plug 'w0rp/ale'
   call plug#end()
@@ -43,6 +42,7 @@
     let g:indent_guides_guide_size = 1
     let g:indent_guides_exclude_filetypes = ['help', 'startify', 'terminal']
     let g:indent_guides_start_level = 2
+    let g:indent_guides_color_change_percent = 5
 
     autocmd!
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=0
@@ -52,6 +52,30 @@
   if has('vim_starting') && !has('nvim') && &compatible
     set nocompatible                 " Be iMproved
   endif
+
+  if has('vim_starting') && has('nvim')
+  " NVIMUX's configuration
+lua << EOF
+local nvimux = require('nvimux')
+
+-- Nvimux configuration
+nvimux.config.set_all{
+  new_window = 'term', -- Use 'term' if you want to open a new term for every new window
+  new_tab = term, -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
+  quickterm_scope = 'g', -- Use 'g' for global quickterm
+  quickterm_size = '50',
+}
+
+-- Nvimux custom bindings
+nvimux.bindings.bind_all{
+  {'t', ':NvimuxToggleTerm', {'n', 'v', 'i', 't'}},
+}
+
+-- Required so nvimux sets the mappings correctly
+nvimux.bootstrap()
+EOF
+  endif
+
   filetype on                        " Enable filetype detection
   filetype plugin on                 " Enable filetype-specific plugins
   filetype indent on                 " Enable filetype-specific indenting
@@ -92,15 +116,13 @@
   set number relativenumber
 
   " Uses new Regex engine for faster syntax highlighting
-  let &re = 1
+  let &re = 2
 
   " Faster scrolling
   set lazyredraw
 
   " Sets the cursorline
   set cursorline
-  highlight clear CursorLine
-  highlight CursorLine gui=underline ctermbg=0
 
   " Integrate AG (Silver Searcher) with ack.vim
   let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -120,27 +142,6 @@
 
   " This new Sudow command is for writting changes as root
   command! Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
-
-  " NVIMUX's configuration
-lua << EOF
-local nvimux = require('nvimux')
-
--- Nvimux configuration
-nvimux.config.set_all{
-  new_window = 'term', -- Use 'term' if you want to open a new term for every new window
-  new_tab = term, -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
-  quickterm_scope = 'g', -- Use 'g' for global quickterm
-  quickterm_size = '50',
-}
-
--- Nvimux custom bindings
-nvimux.bindings.bind_all{
-  {'t', ':NvimuxToggleTerm', {'n', 'v', 'i', 't'}},
-}
-
--- Required so nvimux sets the mappings correctly
-nvimux.bootstrap()
-EOF
 
   " Set update time for GitGutter to 100 ms
   let &updatetime = 100
@@ -196,6 +197,9 @@ EOF
     \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
     \ 'bundle/.*/doc',
     \ ]
+
+  " Sets the ruby_path manually for speeding things up
+  let g:ruby_path="~/.rbenv/shims/ruby"
 " }}}
 
 " Mappings ---------------------- {{{
@@ -277,6 +281,7 @@ EOF
   tnoremap <C-b>l <c-\><c-n>:tabn<CR>
 
   " Setup for the vim-test plugin
+  nnoremap <silent> <leader>N :TestNearest<CR>
   nnoremap <silent> <leader>T :TestFile<CR>
   nnoremap <silent> <leader>a :TestSuite<CR>
 
