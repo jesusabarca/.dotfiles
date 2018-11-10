@@ -6,7 +6,7 @@
     Plug 'tpope/vim-endwise'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-dispatch'
-    Plug 'tpope/vim-bundler'
+    Plug 'tpope/vim-sleuth'
     Plug 'airblade/vim-gitgutter'
     Plug 'mileszs/ack.vim'
     Plug 'jiangmiao/auto-pairs'
@@ -18,9 +18,8 @@
     Plug 'roxma/python-support.nvim'
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'vim-ruby/vim-ruby'
     Plug 'Vigemus/nvimux'
-    Plug 'w0rp/ale'
+    Plug 'ludovicchabant/vim-gutentags'
   call plug#end()
 " }}}
 
@@ -76,21 +75,14 @@ nvimux.bootstrap()
 EOF
   endif
 
-  filetype on                        " Enable filetype detection
   filetype plugin on                 " Enable filetype-specific plugins
-  filetype indent on                 " Enable filetype-specific indenting
-  set ruler                          " Show line and column number
   syntax enable                      " Turn on syntax highlighting allowing local overrides
   set path+=**                       " Fuzzy finder
   set wildmenu                       " Command-line completion
   set ttyfast                        " Speeds things up a little bit
-  compiler ruby                      " Enable compiler support for ruby
 
   " Whitespace
   set nowrap                        " don't wrap lines
-  let &tabstop = 2                  " a tab is two spaces
-  let &shiftwidth = 2               " an autoindent (with <<) is two spaces
-  set expandtab                     " use spaces, not tabs
   set list                          " Show invisible characters
   set backspace=indent,eol,start    " backspace through everything in insert mode
 
@@ -143,9 +135,6 @@ EOF
   " This new Sudow command is for writting changes as root
   command! Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
-  " Set update time for GitGutter to 100 ms
-  let &updatetime = 100
-
   let test#strategy = 'dispatch'
 
   let test#ruby#rspec#options = {
@@ -164,13 +153,13 @@ EOF
 
   " NERDTree config
   augroup nerdtree_config
+    autocmd!
+
     let NERDTreeMinimalUI=1
     let NERDTreeAutoDeleteBuffer=1
     let NERDTreeQuitOnOpen=1
     let NERDTreeAutoCenter=0
     let NERDTreeShowLineNumbers=1
-
-    autocmd!
   augroup END
 
   " Startify config
