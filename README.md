@@ -64,9 +64,6 @@ gem install rubocop
 ```
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-```
-
-```bash
 source ~/.vimrc
 ```
 
