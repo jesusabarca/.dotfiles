@@ -9,8 +9,6 @@ defaults write -g InitialKeyRepeat -int 10
 defaults write -g KeyRepeat -int 1
 ```
 
-### Install ligaturized Meslo LG M DZ font https://github.com/ToxicFrog/Ligaturizer
-
 ### Install homebrew
 ```bash
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
