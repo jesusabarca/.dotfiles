@@ -81,7 +81,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 :PlugInstall
 ```
 
-### Install the ligaturized version of Meslo LGMDZ https://github.com/ToxicFrog/Ligaturizer
+### Install the ligaturized version of Meslo LGMDZ https://github.com/lemeb/a-better-ligaturizer
 
 ### Install Virtualbox (needed for AO)
 `brew cask install virtualbox`
