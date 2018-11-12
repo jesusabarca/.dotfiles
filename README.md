@@ -68,6 +68,9 @@ source ~/.vimrc
 ### Install the incredibly fast Silver Searcher
 `brew install the_silver_searcher`
 
+### Install excuberant Ctags
+`brew install ctags`
+
 ### Install diff-so-fancy
 `brew install diff-so-fancy`
 
