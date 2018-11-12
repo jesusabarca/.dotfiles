@@ -18,7 +18,6 @@
     Plug 'roxma/python-support.nvim'
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'Vigemus/nvimux'
     Plug 'ludovicchabant/vim-gutentags'
   call plug#end()
 " }}}
@@ -50,29 +49,6 @@
 
   if has('vim_starting') && !has('nvim') && &compatible
     set nocompatible                 " Be iMproved
-  endif
-
-  if has('vim_starting') && has('nvim')
-  " NVIMUX's configuration
-lua << EOF
-local nvimux = require('nvimux')
-
--- Nvimux configuration
-nvimux.config.set_all{
-  new_window = 'term', -- Use 'term' if you want to open a new term for every new window
-  new_tab = term, -- Defaults to new_window. Set to 'term' if you want a new term for every new tab
-  quickterm_scope = 'g', -- Use 'g' for global quickterm
-  quickterm_size = '50',
-}
-
--- Nvimux custom bindings
-nvimux.bindings.bind_all{
-  {'t', ':NvimuxToggleTerm', {'n', 'v', 'i', 't'}},
-}
-
--- Required so nvimux sets the mappings correctly
-nvimux.bootstrap()
-EOF
   endif
 
   filetype plugin on                 " Enable filetype-specific plugins
@@ -268,6 +244,18 @@ EOF
 
   tnoremap <C-b>h <c-\><c-n>:tabp<CR>
   tnoremap <C-b>l <c-\><c-n>:tabn<CR>
+
+  " Map ctrl-b + c to open a new tab window
+  nnoremap <C-b>c :tabnew +terminal<CR>
+  tnoremap <C-b>c <C-\><C-n>:tabnew +terminal<CR>
+
+  " Map ctrl-b + c to open a new horizontal split with a terminal
+  nnoremap <C-b>" :new +terminal<CR>
+  tnoremap <C-b>" <C-\><C-n>:new +terminal<CR>
+
+  " Map ctrl-b + c to open a new vertical split with a terminal
+  nnoremap <C-b>% :vnew +terminal<CR>
+  tnoremap <C-b>% <C-\><C-n>:vnew +terminal<cr>
 
   " Setup for the vim-test plugin
   nnoremap <silent> <leader>N :TestNearest<CR>
