@@ -6,7 +6,6 @@
     Plug 'tpope/vim-endwise'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-dispatch'
-    Plug 'tpope/vim-sleuth'
     Plug 'airblade/vim-gitgutter'
     Plug 'mileszs/ack.vim'
     Plug 'jiangmiao/auto-pairs'
@@ -19,6 +18,7 @@
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'ludovicchabant/vim-gutentags'
+    Plug 'ngmy/vim-rubocop'
   call plug#end()
 " }}}
 
@@ -59,6 +59,9 @@
 
   " Whitespace
   set nowrap                        " don't wrap lines
+  set tabstop=2                     " a tab is two spaces
+  set shiftwidth=2                  " an autoindent (with <<) is two spaces
+  set expandtab                     " use spaces, not tabs
   set list                          " Show invisible characters
   set backspace=indent,eol,start    " backspace through everything in insert mode
 
@@ -113,11 +116,17 @@
 
   let test#strategy = 'dispatch'
 
-  let test#ruby#rspec#options = {
-  \ 'nearest': '--backtrace',
-  \ 'file':    '--format documentation',
-  \ 'suite':   '--tag ~slow',
-  \}
+  " Edit files within Nvim's terminal without nesting sessions.
+  augroup prevent_nested_edit
+    autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v:servername
+            \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
+            \ |let g:f=fnameescape(expand('%:p'))
+            \ |noau bwipe
+            \ |call rpcrequest(g:r, "nvim_command", "edit ".g:f)
+            \ |call rpcrequest(g:r, "nvim_command", "call lib#SetNumberDisplay(1)")
+            \ |qa
+            \ |endif
+  augroup END
 
   function! VagrantTransform(cmd) abort
     let vagrant_project = get(matchlist(s:cat('Vagrantfile'), '\vconfig\.vm.synced_folder ["''].+[''"], ["''](.+)[''"]'), 1)
@@ -203,7 +212,7 @@
   " e.g. c+P will change the insides of the previous parenthesis
   onoremap P :<c-u>normal! F)vi(<cr>
 
-  " Maps ESC to scape from Terminal's insert mode
+  " Maps ESC to exit terminal's insert mode
   if has('nvim')
     tnoremap <Esc> <C-\><C-n>
   endif
@@ -245,15 +254,15 @@
   tnoremap <C-b>h <c-\><c-n>:tabp<CR>
   tnoremap <C-b>l <c-\><c-n>:tabn<CR>
 
-  " Map ctrl-b + c to open a new tab window
+  " Maps ctrl-b + c to open a new tab window
   nnoremap <C-b>c :tabnew +terminal<CR>
   tnoremap <C-b>c <C-\><C-n>:tabnew +terminal<CR>
 
-  " Map ctrl-b + c to open a new horizontal split with a terminal
+  " Maps ctrl-b + " to open a new horizontal split with a terminal
   nnoremap <C-b>" :new +terminal<CR>
   tnoremap <C-b>" <C-\><C-n>:new +terminal<CR>
 
-  " Map ctrl-b + c to open a new vertical split with a terminal
+  " Maps ctrl-b + % to open a new vertical split with a terminal
   nnoremap <C-b>% :vnew +terminal<CR>
   tnoremap <C-b>% <C-\><C-n>:vnew +terminal<cr>
 
@@ -265,6 +274,10 @@
   " NERDTreeToggle mapping
   noremap <leader>n :NERDTreeToggle<CR>
   tnoremap <leader>n <C-\><C-n>:NERDTreeToggle<CR>
+
+  " Usefull Git mappings mapping
+  noremap <leader>S :Git diff --staged<CR>
+  noremap <leader>gs :Gstatus<CR>
 " }}}
 
 " FileType settings ---------------------- {{{
