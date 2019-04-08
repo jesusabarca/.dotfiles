@@ -12,13 +12,19 @@
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'janko-m/vim-test'
     Plug 'iCyMind/NeoSolarized'
-    Plug 'ajh17/vimcompletesme'
     Plug 'itchyny/lightline.vim'
     Plug 'roxma/python-support.nvim'
     Plug 'scrooloose/nerdtree'
     Plug 'Xuyuanp/nerdtree-git-plugin'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'ngmy/vim-rubocop'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'arcticicestudio/nord-vim'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2-vim-lsp'
   call plug#end()
 " }}}
 
@@ -30,8 +36,13 @@
   " Solarized colorscheme config
   set termguicolors
   set background=dark
-  colorscheme NeoSolarized
+  colorscheme nord
   let g:gitgutter_override_sign_column_highlight = 0
+
+  let g:nord_italic = 1
+  let g:nord_underline = 1
+  let g:nord_italic_comments = 1
+  let g:nord_cursor_line_number_background = 1
 
   " Indentguides config
   augroup indentation_config
@@ -300,7 +311,7 @@
 " Status line ---------------------- {{{
   " Lightline config
   let g:lightline = {
-        \ 'colorscheme': 'solarized',
+        \ 'colorscheme': 'nord',
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ],
         \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ]
@@ -309,4 +320,34 @@
         \   'gitbranch': 'fugitive#head'
         \ },
         \ }
+" }}}
+
+" Autocompletion and LSP --------------{{{
+" Solargraph
+  if executable('solargraph')
+    " gem install solargraph
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'solargraph',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+        \ 'initialization_options': {"diagnostics": "true"},
+        \ 'whitelist': ['ruby'],
+        \ })
+  endif
+
+  " enable ncm2 for all buffers
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+
+  " IMPORTANT: :help Ncm2PopupOpen for more information
+  set completeopt=noinsert,menuone,noselect
+
+  " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+	" found' messages
+	set shortmess+=c
+
+	" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+	inoremap <c-c> <ESC>
+
+	" Use <TAB> to select the popup menu:
+	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"<Paste>
 " }}}
