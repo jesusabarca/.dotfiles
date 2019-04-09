@@ -14,9 +14,9 @@ defaults write -g KeyRepeat -int 1
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-### Install iterm2
+### Install Alacritty!
 ```bash
-brew cask install iterm2
+brew cask install alacritty
 ```
 
 ### Install Git
@@ -113,3 +113,6 @@ pip3 install virtualenv
 
 ### Install GPG tools to store the key frase for signing commits in macOS's keychain
 https://gpgtools.org
+
+### Fix italics not being displayed in alacritty
+https://hobo.house/2017/07/17/using-italics-with-vim-in-your-terminal/
