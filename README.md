@@ -1,118 +1,171 @@
-# .dotfiles
-#### Personal dotfiles for various apps
+# How to up a Ruby on Rails dev environment on NeoVim for macOS Catalina.
 
-## How to setup a new OS X for dev
+## Utilities
 
-### Increase speed on keypress
-```bash
-defaults write -g InitialKeyRepeat -int 10
-defaults write -g KeyRepeat -int 1
-```
-
-### Install homebrew
-```bash
+### Homebrew
+#### Package manager for macOS https://brew.sh
+```zsh
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-### Install Alacritty!
-```bash
-brew cask install alacritty
+### Git and other command line tools
+#### Trying to execute `git` for the first time will trigger the install wizzard. This will install git and other command line tools necessary for compiling some gems.
+```zsh
+git
 ```
 
-### Install Git
-```bash
-brew install git
-```
-
-### Install Thoughbot's RCM from https://github.com/thoughtbot/rcm
-```bash
+### Thoughbot's RCM
+#### Helps with keeping configuration files in a single directory https://github.com/thoughtbot/rcm
+```zsh
 brew tap thoughtbot/formulae
 brew install rcm
 ```
 
-### Clone this repo and run Rcup to install these dotfiles
-```bash
+### GNU's coreutils
+#### Various useful GNU utilities.
+```zsh
+brew install coreutils
+```
+
+### Silver Searcher
+#### Grep on steroids
+```zsh
+brew install the_silver_searcher
+```
+
+### Tags
+#### Global tags and Ctags
+```zsh
+brew install global
+```
+
+### diff-so-fancy
+#### Nice looking `git diff` formater
+```zsh
+brew install diff-so-fancy
+```
+
+### Yarn
+#### JS package manager. Also installs Node.js as a dependency.
+```zsh
+brew install yarn
+```
+
+### import-js
+#### Random JS dependency for javascript development on SpaceVim
+```zsh
+npm install -g import-js
+```
+
+## Terminal setup
+
+### Keypress responsiveness
+#### Increase speed on keypress.
+```zsh
+defaults write -g InitialKeyRepeat -int 10
+defaults write -g KeyRepeat -int 1
+```
+
+### Iterm2
+#### Awesome terminal emulator https://iterm2.com
+```zsh
+brew cask install iterm2
+```
+
+### Nord color scheme (optional).
+#### Awesome color scheme. Follow instructions on https://github.com/arcticicestudio/nord-iterm2 to install Nord on iterm2.
+#### Colors for directories and files in the terminal.
+```zsh
+curl -fLo ~/.dircolors https://raw.githubusercontent.com/arcticicestudio/nord-dircolors/develop/src/dir_colors
+```
+
+### Nerd hack font.
+#### Patched version of the hack font https://www.nerdfonts.com with extra icons and glyphs.
+```zsh
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+```
+#### Select hack as the default font on your iterm2 profile.
+
+### Oh My Zsh
+#### Fancy shell prompt and extra plugins for the Zsh shell.
+```zsh
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
+## Config files
+
+### Dotfiles
+#### Clone this repo and run Rcup to install these configuration files.
+```zsh
 cd ~
 git clone https://github.com/jesusabarca/.dotfiles.git
 cd .dotfiles
 rcup -v
 ```
+#### Update your name and email address on `~/.gitconfig`
 
-### Update your name and email address on:
-`gitconfig`
+## Ruby on Rails
 
-### Install NeoVim
-```bash
-brew install neovim
-````
-
-### Install rbenv and ruby-build
-```bash
+### Rbenv with ruby-build
+#### Ruby version manager.
+```zsh
 brew install rbenv
 ```
 
-### Install a default ruby version and install `rubocop`
-```bash
-rbenv install 2.5.1
-rbenv global 2.5.1
+### Ruby
+#### Exit terminal and open again to initialize Rbenv properly
+#### Check the latest available versions of Ruby
+```zsh
+rbenv install --list | egrep "[^-.]2\.\d{1,2}\.\d{1,2}$" | tail
+```
+#### Install the latest Ruby version (ie 2.6.5), set it up as the default versionand install `rubocop`
+```zsh
+rbenv install 2.6.5
+rbenv global 2.6.5
 gem install rubocop
 ```
-
-### To import config, create a `~/.config/nvim/init.vim` file with:
-```
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
+#### Verify Rbenv works properly
+```zsh
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash
 ```
 
-### Install the incredibly fast Silver Searcher
-`brew install the_silver_searcher`
-
-### Install excuberant Ctags
-`brew install ctags`
-
-### Install diff-so-fancy
-`brew install diff-so-fancy`
-
-### Install bash-git-prompt
-`brew install bash-git-prompt`
-
-### Install vim-plug from https://github.com/junegunn/vim-plug and run inside nvim:
-```bash
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-:PlugInstall
+### PostgreSQL
+#### SQL database system
+```zsh
+brew install postgresql
+brew services start postgresql
 ```
 
-### Install the ligaturized version of Meslo LGMDZ https://github.com/lemeb/a-better-ligaturizer
-
-### Install Virtualbox (needed for AO)
-`brew cask install virtualbox`
-
-### Install vagrant (needed for AO)
-`brew cask install vagrant`
-
-### Install GPG for creating a Key to upload in Github
-`brew install gpg`
-
-### Setup GPG keys for signing commits
-https://help.github.com/articles/signing-commits-with-gpg/
-
-### Install python2 and python3 support for vim
-```bash
-brew install python2
-pip2 install virtualenv
-
-brew install python3
-pip3 install virtualenv
-```
-```vim
-:PythonSupportInitPython2
-:PythonSupportInitPython3
+### Redis
+#### In-memory DB. Necessary for using Sidekiq and other cool gems.
+```zsh
+brew install redis
+brew services start redis
 ```
 
-### Install GPG tools to store the key frase for signing commits in macOS's keychain
-https://gpgtools.org
+### Rails
+#### MVC awesomeness
+```zsh
+gem install rails
+```
 
-### Fix italics not being displayed in alacritty
-https://hobo.house/2017/07/17/using-italics-with-vim-in-your-terminal/
+## NeoVim + SpaceVim
+
+### NeoVim
+#### Awesome Vim fork
+```zsh
+brew install neovim
+````
+
+### Spacevim
+#### Vim distribution with feature layers https://spacevim.org
+```zsh
+curl -sLf https://spacevim.org/install.sh | bash
+```
+#### Run NeoVim after installing SpaceVim.
+#### If asked, use "j" and "k" keys to select "Dark power mode" and press enter.
+```zsh
+nvim
+```
+#### Close with ":qa" and run NeoVim again a couple of times to allow all the plugins to install.
