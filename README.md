@@ -101,7 +101,7 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 cd ~
 git clone https://github.com/jesusabarca/.dotfiles.git
 cd .dotfiles
-rcup -v
+rcup -fv
 ```
 #### Update your name and email address on `~/.gitconfig`
 
